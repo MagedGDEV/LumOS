@@ -55,3 +55,6 @@ compile_commands.json
 
 # Ignore generated qmlls
 .qmlls.ini
+
+# Ignore vscode folder
+.vscode
