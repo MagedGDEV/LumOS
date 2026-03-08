@@ -58,3 +58,6 @@ compile_commands.json
 
 # Ignore vscode folder
 .vscode
+
+# Ignore generated DS_Store
+.DS_Store
