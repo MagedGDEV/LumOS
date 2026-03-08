@@ -6,7 +6,7 @@ A fullscreen Qt6 QML application cross-compiled with Yocto for Raspberry Pi 2, r
 
 ## Current Progress
 
-![Hello World Application](screenshots/hello-world.JPG)
+![Hello World Application](screenshots/hello-world.jpg)
 
 | Milestone | Status |
 | --- | --- |
