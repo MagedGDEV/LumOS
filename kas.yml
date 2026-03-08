@@ -1,0 +1,41 @@
+header: 
+  version: 11
+
+machine: raspberrypi2
+distro: poky
+target: core-image-weston
+
+# Limit the number of cores use to avoid filling RAM
+local_conf_header:
+  memory_settings: |
+    BB_NUMBER_THREADS = "5"
+    PARALLEL_MAKE = "-j 5"
+
+repos:
+  poky:
+    url: https://github.com/yoctoproject/poky.git
+    branch: kirkstone
+    layers:
+      meta:
+      meta-poky:
+
+  meta-openembedded:
+    url: https://github.com/openembedded/meta-openembedded.git
+    branch: kirkstone
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+
+  meta-raspberrypi:
+    url: https://git.yoctoproject.org/meta-raspberrypi
+    branch: kirkstone
+
+  meta-qt6:
+    url: git://code.qt.io/yocto/meta-qt6.git
+    branch: 6.9.3
+  
+  meta-app:
+    path: /yocto
+    layers: 
+      meta-app:
