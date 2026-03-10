@@ -3,7 +3,7 @@ Description=LumOS Smart Home UI
 After=graphical.target
 
 [Service]
-ExecStart=/usr/bin/LumOS
+ExecStart=/usr/bin/LumOSApp
 Environment=QT_QPA_PLATFORM=wayland
 Environment=XDG_RUNTIME_DIR=/run/user/0
 Restart=always

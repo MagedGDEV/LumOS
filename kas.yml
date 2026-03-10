@@ -5,8 +5,8 @@ machine: raspberrypi2
 distro: poky
 target: core-image-weston
 
-# Limit the number of cores use to avoid filling RAM
 local_conf_header:
+  # Limit the number of cores use to avoid filling RAM
   memory_settings: |
     BB_NUMBER_THREADS = "5"
     PARALLEL_MAKE = "-j 5"
@@ -34,7 +34,7 @@ repos:
   meta-qt6:
     url: git://code.qt.io/yocto/meta-qt6.git
     branch: 6.9.3
-  
+
   meta-app:
     path: /yocto
     layers: 
