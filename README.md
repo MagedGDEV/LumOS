@@ -1,3 +1,5 @@
+
+https://github.com/user-attachments/assets/048bbdc5-5953-4e5d-bf76-419a99aca4c9
 # LumOS 💡
 
 > Qt6 Smart Home Light Controller · Yocto Kirkstone · Raspberry Pi · GPIO
@@ -6,14 +8,14 @@ A fullscreen Qt6 QML application cross-compiled with Yocto for Raspberry Pi 2, r
 
 ## Current Progress
 
-<video src="screenshots/light-control.mp4" controls width="100%"></video>
+https://github.com/user-attachments/assets/0b45c789-ff18-4017-b90f-ce7cb2a55165
 
 | Milestone | Status |
 | --- | --- |
 | Hello World Application | ✅ Done |
 | GPIO LED control button | ✅ Done |
 | App boots on Pi directly | 🔜 Coming |
-<!-- | GPIO LED control button | 🔄 In Progress | -->
+<!-- | Next | 🔄 In Progress | -->
 
 ## Stack
 
