@@ -6,13 +6,14 @@ A fullscreen Qt6 QML application cross-compiled with Yocto for Raspberry Pi 2, r
 
 ## Current Progress
 
-![Hello World Application](screenshots/hello-world.jpg)
+<video src="screenshots/light-control.mp4" controls width="100%"></video>
 
 | Milestone | Status |
 | --- | --- |
 | Hello World Application | ✅ Done |
-| GPIO LED control button | 🔄 In Progress |
+| GPIO LED control button | ✅ Done |
 | App boots on Pi directly | 🔜 Coming |
+<!-- | GPIO LED control button | 🔄 In Progress | -->
 
 ## Stack
 
@@ -24,7 +25,6 @@ A fullscreen Qt6 QML application cross-compiled with Yocto for Raspberry Pi 2, r
 | Layer Management | kas |
 | Build Environment | Docker (Ubuntu 22.04) |
 | Target Hardware | Raspberry Pi 2 |
-| Auto-start | systemd service |
 
 ## Build Instructions
 
@@ -76,7 +76,6 @@ kas build kas.yml
 
 > First build takes **2-4 hours**. Subsequent builds use sstate cache and are much faster.
 
-
 ### Step 6 — Copy the image to your machine
 
 Open a new terminal on your host machine and run:
@@ -122,6 +121,6 @@ Insert the SD card into your Raspberry Pi 2, connect a display, and power on. Th
 ## Attach a Second Terminal to the Running Container
 
 ```bash
-docker ps                          # get container ID
+docker ps  # get container ID
 docker exec -it <container_id> bash
 ```
