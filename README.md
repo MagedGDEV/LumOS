@@ -1,5 +1,3 @@
-
-https://github.com/user-attachments/assets/048bbdc5-5953-4e5d-bf76-419a99aca4c9
 # LumOS 💡
 
 > Qt6 Smart Home Light Controller · Yocto Kirkstone · Raspberry Pi · GPIO
