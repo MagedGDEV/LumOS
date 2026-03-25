@@ -1,14 +1,21 @@
 [Unit]
 Description=LumOS Smart Home UI
-After=graphical.target
+After=weston.service
+Requires=weston.service
 
 [Service]
-ExecStart=/usr/bin/LumOSApp
+Type=simple
+User=weston
+
 Environment=QT_QPA_PLATFORM=wayland
-Environment=XDG_RUNTIME_DIR=/run/user/0
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+
+ExecStartPre=/bin/sh -c 'until [ -S /run/user/1000/wayland-1 ]; do sleep 1; done'
+ExecStart=/usr/bin/LumOSApp
+
 Restart=always
 RestartSec=3
-User=root
 
 [Install]
 WantedBy=graphical.target
