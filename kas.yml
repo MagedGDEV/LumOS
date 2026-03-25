@@ -10,6 +10,15 @@ local_conf_header:
   memory_settings: |
     BB_NUMBER_THREADS = "5"
     PARALLEL_MAKE = "-j 5"
+  # Limit the number of images generated to be only one
+  cleanup: |
+    RM_OLD_IMAGE = "1"
+    INHERIT += "rm_work"
+  # Use systemd instead of sysvinit in booting
+  systemd: |
+    DISTRO_FEATURES:append = " systemd pam wayland"
+    DISTRO_FEATURES:remove = "sysvinit"
+    VIRTUAL-RUNTIME_init_manager = "systemd"
 
 repos:
   poky:

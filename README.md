@@ -12,8 +12,10 @@ https://github.com/user-attachments/assets/0b45c789-ff18-4017-b90f-ce7cb2a55165
 | --- | --- |
 | Hello World Application | ✅ Done |
 | GPIO LED control button | ✅ Done |
-| App boots on Pi directly | 🔜 Coming |
-<!-- | Next | 🔄 In Progress | -->
+| App boots on Pi directly | ✅ Done |
+| Open lamp with voice | 🔄 In Progress |
+| Better UI / Dashboard | 🔜 Coming |
+| Support multiple devices in a room | 🔜 Coming |
 
 ## Stack
 

@@ -1,5 +1,5 @@
 # Append our app on top of the standard weston image
-IMAGE_INSTALL:append = " app"
+IMAGE_INSTALL:append = " app systemd"
 
 DISTRO_FEATURES:append = " wayland"
 
