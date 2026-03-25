@@ -16,7 +16,7 @@ SRC_URI = " \
     file://app.service                                  \
 "
 
-S ="${WORKDIR}/git"
+S = "${WORKDIR}/git"
 
 inherit cmake qt6-cmake systemd
 
