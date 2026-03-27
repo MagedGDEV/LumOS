@@ -51,7 +51,6 @@ def main():
 
     model = Model(MODEL_PATH)
 
-    # Two recognizers — one for wake word, one for commands
     wake_rec    = KaldiRecognizer(model, SAMPLE_RATE, WAKE_GRAMMAR)
     command_rec = KaldiRecognizer(model, SAMPLE_RATE, COMMAND_GRAMMAR)
 
@@ -99,14 +98,12 @@ def main():
                 if command_rec.AcceptWaveform(data):
                     result = json.loads(command_rec.Result())
                     text   = result.get("text", "").strip()
-                    if text:
+                    if text and not ("[unk]" in text):
                         print(f"[Voice] Command  : '{text}'\n")
                         chunks_since_wake = 0 
                         command_rec.Reset()
                     else:
                         print(f"[Voice] Not recognized, try again...\n")
-                        chunks_since_wake = 0
-                        command_rec.Reset()
 
     except KeyboardInterrupt:
         print("\n[Voice] Stopped")
