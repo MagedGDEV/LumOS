@@ -70,5 +70,33 @@ QString RoomManager::roomName(int index) const
 int RoomManager::roomPin(int index) const
 {
     if (index < 0 || index >= m_rooms.size()) return -1;
-    return m_rooms[index]->state();
+    return m_rooms[index]->pinNum();
+}
+
+// -----------------------------------------
+// Public slots 
+// -----------------------------------------
+
+void RoomManager::onVoiceCommand(const QString &action, const QString &room)
+{
+    qInfo() << "[Voice] action:" << action << "room:" << room;
+
+    bool turnOn = (action == "turn_on");
+
+    if (room == "all")
+    {
+        turnOn ? turnAllOn() : turnAllOff();
+        return;
+    }
+
+    for (auto *r : m_rooms)
+    {
+        if (r->name().toLower() == room.toLower())
+        {
+            turnOn ? r->turnOn() : r->turnOff();
+            return;
+        }
+    }
+
+    qWarning() << "[Voice] Room not found:" << room;
 }

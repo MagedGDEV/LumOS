@@ -3,6 +3,7 @@ import sys
 import json
 import platform
 import pyaudio
+import socket as sock_lib
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 # ─────────────────────────────────────────────────────────
@@ -20,6 +21,8 @@ if IS_MAC:
 else:
     MODEL_PATH = "/usr/share/vosk/model"
 
+SOCKET_PATH = "/tmp/lumos.sock"
+
 # ─────────────────────────────────────────────────────────
 # Grammar
 # ─────────────────────────────────────────────────────────
@@ -32,6 +35,23 @@ COMMAND_GRAMMAR = json.dumps([
     "[unk]"
 ])
 
+
+def connect_socket():
+    while True:
+        try:
+            s = sock_lib.socket(sock_lib.AF_UNIX, sock_lib.SOCK_STREAM)
+            s.connect(SOCKET_PATH)
+            print("[Socket] Connected to Qt app")
+            return s
+        except (FileNotFoundError, ConnectionRefusedError):
+            print("[Socket] Waiting for Qt app...")
+            import time
+            time.sleep(1)
+
+def send_command(s, action: str, room: str):
+    msg = json.dumps({"action": action, "room": room})
+    s.sendall(msg.encode())
+
 # ─────────────────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────────────────
@@ -39,6 +59,7 @@ COMMAND_GRAMMAR = json.dumps([
 def main():
 
     SetLogLevel(-1)
+    socket = connect_socket()
 
     print(f"[Voice] Platform : {platform.system()}")
     print(f"[Voice] Model    : {MODEL_PATH}")
@@ -99,7 +120,17 @@ def main():
                     result = json.loads(command_rec.Result())
                     text   = result.get("text", "").strip()
                     if text and not ("[unk]" in text):
-                        print(f"[Voice] Command  : '{text}'\n")
+                        # parse and send
+                        if "turn on" in text:
+                            action = "turn_on"
+                        elif "turn off" in text:
+                            action = "turn_off"
+                        else:
+                            action = None
+
+                        if action:
+                            room = text.replace("turn on", "").replace("turn off", "").strip()
+                            send_command(socket, action, room)
                         chunks_since_wake = 0 
                         command_rec.Reset()
                     else:

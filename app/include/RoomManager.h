@@ -25,6 +25,9 @@ public:
     Q_INVOKABLE QString roomName(int index) const;
     Q_INVOKABLE int roomPin(int index) const;
 
+public slots:
+    void onVoiceCommand(const QString &action, const QString &room);
+
 signals:
     void roomsChanged();
 

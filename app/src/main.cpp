@@ -1,11 +1,16 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "RoomManager.h"
+#include "SocketServer.h"
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
+
     QQmlApplicationEngine engine;
+    auto roomManager = engine.singletonInstance<RoomManager*>("lumOS", "RoomManager");
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
@@ -17,6 +22,12 @@ int main(int argc, char *argv[])
     engine.loadFromModule("lumOS", "Main");
     if (engine.rootObjects().isEmpty())
         return -1;
+
+    SocketServer socketServer;
+    socketServer.start();
+
+    QObject::connect(&socketServer,  &SocketServer::commandReceived,
+                     roomManager,   &RoomManager::onVoiceCommand);
 
     return app.exec();
 }
