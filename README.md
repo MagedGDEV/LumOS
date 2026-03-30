@@ -6,7 +6,7 @@ A fullscreen Qt6 QML application cross-compiled with Yocto for Raspberry Pi 2, r
 
 ## Current Progress
 
-https://github.com/user-attachments/assets/0b45c789-ff18-4017-b90f-ce7cb2a55165
+https://github.com/user-attachments/assets/2a1cfce4-2ccf-496c-b76f-ed0345f0e5e8
 
 | Milestone | Status |
 | --- | --- |
