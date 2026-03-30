@@ -25,7 +25,7 @@ qt_add_qml_module(LumOSApp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/RoomManager.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/SocketServer.cpp
 
-    #RESOURCE_PREFIX /qt/qml
+    RESOURCE_PREFIX /qt/qml
 )
 
 target_include_directories(LumOSApp PRIVATE
