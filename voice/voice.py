@@ -4,16 +4,19 @@ import json
 import platform
 import pyaudio
 import socket as sock_lib
+import audioop
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 # ─────────────────────────────────────────────────────────
 # Config
 # ─────────────────────────────────────────────────────────
 
+HW_RATE      = 48000
 SAMPLE_RATE  = 16000
-CHUNK        = 2000
+CHUNK        = 8000
+HW_CHUNKS    = int(CHUNK * HW_RATE / SAMPLE_RATE)
 WAKE_WORD    = "lumina"
-COMMAND_TIMEOUT = 10  # seconds to wait for command after wake word
+COMMAND_TIMEOUT = 20
 IS_MAC       = platform.system() == "Darwin"
 
 if IS_MAC:
@@ -52,6 +55,18 @@ def send_command(s, action: str, room: str):
     msg = json.dumps({"action": action, "room": room})
     s.sendall(msg.encode())
 
+def find_usb_mic(p: pyaudio.PyAudio):
+    for i in range(p.get_device_count()):
+        info = p.get_device_info_by_index(i)
+        name = info.get("name", "").lower()
+        if info.get("maxInputChannels", 0) > 0:
+            if "usb" in name or "headset" in name or "microphone" in name:
+                print(f"[Mic] Found USB mic: {info['name']} (index {i})")
+                return i
+    print("[Mic] No USB mic found, using default")
+    return None
+
+
 # ─────────────────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────────────────
@@ -78,12 +93,14 @@ def main():
     print("[Voice] Model loaded successfully")
 
     p      = pyaudio.PyAudio()
+    mic_index = find_usb_mic(p)
     stream = p.open(
-        format            = pyaudio.paInt16,
-        channels          = 1,
-        rate              = SAMPLE_RATE,
-        input             = True,
-        frames_per_buffer = CHUNK
+        format             = pyaudio.paInt16,
+        channels           = 1,
+        rate               = HW_RATE,
+        input              = True,
+        input_device_index = mic_index,
+        frames_per_buffer  = HW_CHUNKS
     )
 
     print(f"[Voice] Say '{WAKE_WORD}' to activate\n")
@@ -96,7 +113,8 @@ def main():
     try:
         while True:
             data = stream.read(CHUNK, exception_on_overflow=False)
-
+            data, _ = audioop.ratecv(data, 2, 1, HW_RATE, SAMPLE_RATE, None)
+            
             if not listening_for_command:
                 if wake_rec.AcceptWaveform(data):
                     result = json.loads(wake_rec.Result())
