@@ -19,6 +19,9 @@ local_conf_header:
     DISTRO_FEATURES:append = " systemd pam wayland"
     DISTRO_FEATURES:remove = "sysvinit"
     VIRTUAL-RUNTIME_init_manager = "systemd"
+  # Add alsa support to enable voice recognition
+  audio: |
+    MACHINE_FEATURES:append = " alsa"
 
 repos:
   poky:
