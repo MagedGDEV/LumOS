@@ -1,7 +1,9 @@
 # Append our app on top of the standard weston image
-IMAGE_INSTALL:append = " app systemd"
+IMAGE_INSTALL:append = " app systemd vosk-model voice alsa-lib alsa-utils alsa-plugins"
 
 DISTRO_FEATURES:append = " wayland"
+
+MACHINE_EXTRA_RRECOMMENDS += "kernel-module-snd-usb-audio"
 
 inherit extrausers
 

@@ -9,9 +9,11 @@ SRC_URI = " \
     file://include/Pin.h;subdir=git                     \
     file://include/LightController.h;subdir=git         \
     file://include/RoomManager.h;subdir=git             \
+    file://include/SocketServer.h;subdir=git            \
     file://src/Pin.cpp;subdir=git                       \
     file://src/LightController.cpp;subdir=git           \
     file://src/RoomManager.cpp;subdir=git               \
+    file://src/SocketServer.cpp;subdir=git              \
     file://Main.qml;subdir=git                          \
     file://app.service                                  \
 "

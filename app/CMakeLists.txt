@@ -18,10 +18,12 @@ qt_add_qml_module(LumOSApp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Pin.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/LightController.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/RoomManager.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/SocketServer.h
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Pin.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/LightController.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/RoomManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/SocketServer.cpp
 
     RESOURCE_PREFIX /qt/qml
 )

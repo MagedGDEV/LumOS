@@ -6,22 +6,24 @@ A fullscreen Qt6 QML application cross-compiled with Yocto for Raspberry Pi 2, r
 
 ## Current Progress
 
-https://github.com/user-attachments/assets/0b45c789-ff18-4017-b90f-ce7cb2a55165
+https://github.com/user-attachments/assets/2a1cfce4-2ccf-496c-b76f-ed0345f0e5e8
 
 | Milestone | Status |
 | --- | --- |
 | Hello World Application | ✅ Done |
 | GPIO LED control button | ✅ Done |
 | App boots on Pi directly | ✅ Done |
-| Open lamp with voice | 🔄 In Progress |
+| Open lamp with voice | ✅ Done |
 | Better UI / Dashboard | 🔜 Coming |
 | Support multiple devices in a room | 🔜 Coming |
+<!-- | Open lamp with voice | 🔄 In Progress | -->
 
 ## Stack
 
 | Layer | Technology |
 | --- | --- |
-| UI Framework | Qt6 QML |
+| UI Framework | Qt-6.9.3 / QML |
+| Voice Recognition | Python / Vosk model |
 | Display Server | Wayland / Weston |
 | Build System | Yocto Project (Kirkstone) |
 | Layer Management | kas |
@@ -35,6 +37,10 @@ https://github.com/user-attachments/assets/0b45c789-ff18-4017-b90f-ce7cb2a55165
 - Docker Desktop installed
 - At least 8GB RAM allocated to Docker
 - At least 300GB disk space
+- Install [vosk model](https://alphacephei.com/vosk/models) into `voice/model` to work on macos
+
+>[!NOTE]
+> You dont need to download for a model for raspberrypi and if you need to run QtApp on macos you need to run `voice.py` on it own and install `voice/requirement.txt`
 
 ---
 
