@@ -39,6 +39,20 @@ QVariantList RoomManager::rooms() const
     return list;
 }
 
+bool RoomManager::voiceActive() const
+{ 
+    return m_voiceActive;
+}
+
+void RoomManager::setVoiceActive(const bool value)
+{
+    if (m_voiceActive == value)
+        return;
+
+    m_voiceActive = value;
+    emit voiceActiveChanged(m_voiceActive);
+}
+
 void RoomManager::toggle(int index)
 {
     if (index < 0 || index >= m_rooms.size()) return;
@@ -99,4 +113,9 @@ void RoomManager::onVoiceCommand(const QString &action, const QString &room)
     }
 
     qWarning() << "[Voice] Room not found:" << room;
+}
+
+void RoomManager::onWakeUpCommand(const bool awake)
+{
+    setVoiceActive(awake);
 }

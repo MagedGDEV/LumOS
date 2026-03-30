@@ -26,8 +26,10 @@ int main(int argc, char *argv[])
     SocketServer socketServer;
     socketServer.start();
 
-    QObject::connect(&socketServer,  &SocketServer::commandReceived,
+    QObject::connect(&socketServer, &SocketServer::commandReceived,
                      roomManager,   &RoomManager::onVoiceCommand);
+    QObject::connect(&socketServer, &SocketServer::wakeStateChanged,
+                     roomManager,   &RoomManager::onWakeUpCommand);
 
     return app.exec();
 }

@@ -17,7 +17,8 @@ private slots:
     void onDataReceived();
 
 signals:
-    void commandReceived(const QString &action, const QString &room); 
+    void commandReceived(const QString &action, const QString &room);
+    void wakeStateChanged(bool awake); 
 
 private:
     QLocalServer *m_server  = nullptr;

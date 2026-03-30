@@ -40,9 +40,22 @@ void SocketServer::onDataReceived()
     QByteArray data = m_client->readAll();
     QJsonObject obj = QJsonDocument::fromJson(data).object();
 
-    QString action = obj["action"].toString();
-    QString room   = obj["room"].toString();
+    if (obj.contains("state"))
+    {
+        bool awake = obj["state"].toBool();
+        qInfo() << "[Socket] Wake state received —" << (awake ? "awake" : "sleeping");
+        emit wakeStateChanged(awake);
+    }
+    else if (obj.contains("action"))
+    {
+        QString action = obj["action"].toString();
+        QString room   = obj["room"].toString();
 
-    qInfo() << "[Socket] Command received — action:" << action << "room:" << room;
-    emit commandReceived(action, room);
+        qInfo() << "[Socket] Command received — action:" << action << "room:" << room;
+        emit commandReceived(action, room);
+    }
+    else 
+    {
+        qWarning() << "[Socket] Unknown message format:" << data;
+    }
 }
