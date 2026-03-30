@@ -360,4 +360,153 @@ Window {
             }
         }
     }
+
+    // ── Voice Overlay ────────────────────────────────────
+    Rectangle {
+        id: voiceOverlay
+        anchors.fill: parent
+        color: "#070b14"
+        opacity: RoomManager.voiceActive ? 0.85 : 0.0
+        visible: opacity > 0
+        Behavior on opacity { NumberAnimation { duration: 350; easing.type: Easing.InOutCubic } }
+
+        // Intercept all touch/mouse when active
+        MouseArea { anchors.fill: parent; enabled: RoomManager.voiceActive }
+    }
+
+    // ── Orb + label (sit above the dim layer) ────────────
+    Item {
+        anchors.centerIn: parent
+        width: 320; height: 320
+        opacity: RoomManager.voiceActive ? 1.0 : 0.0
+        visible: opacity > 0
+        Behavior on opacity { NumberAnimation { duration: 350; easing.type: Easing.InOutCubic } }
+
+        // Outermost ripple
+        Rectangle {
+            id: ripple1
+            anchors.centerIn: parent
+            width: 280; height: 280
+            radius: 140
+            color: "transparent"
+            border.color: "#ffd700"
+            border.width: 1
+            opacity: 0
+
+            SequentialAnimation on opacity {
+                running: RoomManager.voiceActive
+                loops: Animation.Infinite
+                NumberAnimation { to: 0.18; duration: 900; easing.type: Easing.OutCubic }
+                NumberAnimation { to: 0.0;  duration: 900; easing.type: Easing.InCubic }
+            }
+            SequentialAnimation on scale {
+                running: RoomManager.voiceActive
+                loops: Animation.Infinite
+                NumberAnimation { to: 1.15; duration: 1800; easing.type: Easing.InOutSine }
+                NumberAnimation { to: 1.0;  duration: 0 }
+            }
+        }
+
+        // Middle ripple — offset phase
+        Rectangle {
+            id: ripple2
+            anchors.centerIn: parent
+            width: 220; height: 220
+            radius: 110
+            color: "transparent"
+            border.color: "#ffd700"
+            border.width: 1.5
+            opacity: 0
+
+            SequentialAnimation on opacity {
+                running: RoomManager.voiceActive
+                loops: Animation.Infinite
+                PauseAnimation   { duration: 300 }
+                NumberAnimation { to: 0.30; duration: 800; easing.type: Easing.OutCubic }
+                NumberAnimation { to: 0.0;  duration: 800; easing.type: Easing.InCubic }
+            }
+            SequentialAnimation on scale {
+                running: RoomManager.voiceActive
+                loops: Animation.Infinite
+                PauseAnimation   { duration: 300 }
+                NumberAnimation { to: 1.12; duration: 1600; easing.type: Easing.InOutSine }
+                NumberAnimation { to: 1.0;  duration: 0 }
+            }
+        }
+
+        // Core orb
+        Rectangle {
+            id: coreOrb
+            anchors.centerIn: parent
+            width: 140; height: 140
+            radius: 70
+            color: "#1a1200"
+            border.color: "#ffd700"
+            border.width: 2
+
+            // Inner warm fill that breathes
+            Rectangle {
+                anchors.centerIn: parent
+                width: 100; height: 100
+                radius: 50
+                color: "#ffd700"
+                opacity: 0.0
+
+                SequentialAnimation on opacity {
+                    running: RoomManager.voiceActive
+                    loops: Animation.Infinite
+                    NumberAnimation { to: 0.25; duration: 900; easing.type: Easing.InOutSine }
+                    NumberAnimation { to: 0.10; duration: 900; easing.type: Easing.InOutSine }
+                }
+            }
+
+            // Bright centre dot
+            Rectangle {
+                anchors.centerIn: parent
+                width: 36; height: 36
+                radius: 18
+                color: "#ffd700"
+
+                SequentialAnimation on opacity {
+                    running: RoomManager.voiceActive
+                    loops: Animation.Infinite
+                    NumberAnimation { to: 0.6; duration: 700; easing.type: Easing.InOutSine }
+                    NumberAnimation { to: 1.0; duration: 700; easing.type: Easing.InOutSine }
+                }
+            }
+
+            // Subtle scale breath on the whole orb
+            SequentialAnimation on scale {
+                running: RoomManager.voiceActive
+                loops: Animation.Infinite
+                NumberAnimation { to: 1.06; duration: 900; easing.type: Easing.InOutSine }
+                NumberAnimation { to: 1.0;  duration: 900; easing.type: Easing.InOutSine }
+            }
+        }
+
+        // Label below orb
+        Column {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: coreOrb.bottom
+            anchors.topMargin: 28
+            spacing: 6
+
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "LUMINA"
+                font.pixelSize: 13
+                font.letterSpacing: 8
+                font.weight: Font.Bold
+                color: "#ffd700"
+                opacity: 0.9
+            }
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Listening..."
+                font.pixelSize: 15
+                font.letterSpacing: 1
+                color: "#a0aec0"
+            }
+        }
+    }
 }
