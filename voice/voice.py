@@ -54,6 +54,9 @@ def connect_socket():
 def send_command(s, action: str, room: str):
     msg = json.dumps({"action": action, "room": room})
     s.sendall(msg.encode())
+def wake_sleep(s, state: bool):
+    msg = json.dumps({"state": state})
+    s.sendall(msg.encode())
 
 def find_usb_mic(p: pyaudio.PyAudio):
     for i in range(p.get_device_count()):
@@ -114,13 +117,14 @@ def main():
         while True:
             data = stream.read(CHUNK, exception_on_overflow=False)
             data, _ = audioop.ratecv(data, 2, 1, HW_RATE, SAMPLE_RATE, None)
-            
+
             if not listening_for_command:
                 if wake_rec.AcceptWaveform(data):
                     result = json.loads(wake_rec.Result())
                     text   = result.get("text", "").strip()
                     if WAKE_WORD in text:
                         print(f"[Voice] Wake word detected — listening for command...")
+                        wake_sleep(socket, True)
                         listening_for_command = True
                         chunks_since_wake     = 0
                         command_rec.Reset()
@@ -130,6 +134,7 @@ def main():
 
                 if chunks_since_wake >= timeout_chunks:
                     print(f"[Voice] Timeout — no command heard, going back to sleep\n")
+                    wake_sleep(socket, False)
                     listening_for_command = False
                     wake_rec.Reset()
                     continue
